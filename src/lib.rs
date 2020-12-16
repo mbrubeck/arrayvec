@@ -27,6 +27,7 @@
 #![doc(html_root_url="https://docs.rs/arrayvec/0.5/")]
 #![cfg_attr(not(feature="std"), no_std)]
 #![cfg_attr(feature="unstable-const-fn", feature(const_fn))]
+#![cfg_attr(feature="unstable-const-generics", feature(min_const_generics))]
 
 #[cfg(feature="serde")]
 extern crate serde;
@@ -40,6 +41,8 @@ use crate::maybe_uninit::MaybeUninit;
 #[cfg(feature="serde")]
 use serde::{Serialize, Deserialize, Serializer, Deserializer};
 
+#[cfg(feature="unstable-const-generics")]
+pub mod r#const;
 mod array;
 mod arrayvec_impl;
 mod arrayvec;

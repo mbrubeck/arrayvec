@@ -1,4 +1,5 @@
 use std::ptr;
+use std::slice;
 
 use crate::CapacityError;
 
@@ -63,9 +64,10 @@ pub(crate) trait ArrayVecImpl {
 
     fn truncate(&mut self, new_len: usize) {
         unsafe {
-            if new_len < self.len() {
-                let tail: *mut [_] = &mut self.as_mut_slice()[new_len..];
+            let len = self.len();
+            if new_len < len {
                 self.set_len(new_len);
+                let tail = slice::from_raw_parts_mut(self.as_mut_ptr().add(new_len), len - new_len);
                 ptr::drop_in_place(tail);
             }
         }

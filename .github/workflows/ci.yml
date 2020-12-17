@@ -25,7 +25,7 @@ jobs:
           - rust: beta
             features: serde
           - rust: nightly
-            features: serde unstable-const-fn
+            features: serde unstable-const-fn unstable-const-generics
 
     steps:
       - uses: actions/checkout@v2

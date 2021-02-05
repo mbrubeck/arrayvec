@@ -1,4 +1,6 @@
 use std::mem::MaybeUninit;
+use std::ops::{Deref, DerefMut};
+use std::slice;
 
 use crate::arrayvec_impl::ArrayVecImpl;
 use crate::CapacityError;
@@ -170,5 +172,20 @@ impl<T, const CAP: usize> ArrayVecImpl for ArrayVec<T, CAP> {
 
     fn as_mut_ptr(&mut self) -> *mut Self::Item {
         self.xs.as_mut_ptr() as _
+    }
+}
+
+impl<T, const CAP: usize> Deref for ArrayVec<T, CAP> {
+    type Target = [T];
+    #[inline]
+    fn deref(&self) -> &[T] {
+        self.as_slice()
+    }
+}
+
+impl<T, const CAP: usize> DerefMut for ArrayVec<T, CAP> {
+    #[inline]
+    fn deref_mut(&mut self) -> &mut [T] {
+        self.as_mut_slice()
     }
 }
